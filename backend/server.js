@@ -30,6 +30,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // Rutas
 app.use("/api/auth", require("./routes/authRoutes"));
+app.use("/api/edificios", require("./routes/buildingRoutes"));
+app.use("/api/apartamentos", require("./routes/apartmentRoutes"));
 
 // Ruta de prueba
 app.get("/", (req, res) => {
