@@ -32,6 +32,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/edificios", require("./routes/buildingRoutes"));
 app.use("/api/apartamentos", require("./routes/apartmentRoutes"));
+app.use("/api/cuotas", require("./routes/feeRoutes"));
+app.use("/api/pagos", require("./routes/paymentRoutes"));
 
 // Ruta de prueba
 app.get("/", (req, res) => {
