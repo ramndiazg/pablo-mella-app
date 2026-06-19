@@ -34,6 +34,8 @@ app.use("/api/edificios", require("./routes/buildingRoutes"));
 app.use("/api/apartamentos", require("./routes/apartmentRoutes"));
 app.use("/api/cuotas", require("./routes/feeRoutes"));
 app.use("/api/pagos", require("./routes/paymentRoutes"));
+app.use("/api/anuncios", require("./routes/announcementRoutes"));
+app.use("/api/gastos", require("./routes/expenseRoutes"));
 
 // Ruta de prueba
 app.get("/", (req, res) => {
