@@ -39,6 +39,7 @@ app.use("/api/gastos", require("./routes/expenseRoutes"));
 app.use("/api/mantenimiento", require("./routes/maintenanceRoutes"));
 app.use("/api/incidencias", require("./routes/incidentRoutes"));
 app.use("/api/multas", require("./routes/fineRoutes"));
+app.use("/api/reservas", require("./routes/reservationRoutes"));
 
 // Ruta de prueba
 app.get("/", (req, res) => {
