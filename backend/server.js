@@ -7,6 +7,22 @@ dotenv.config();
 
 const app = express();
 
+// Importar todos los modelos
+require("./models/User");
+require("./models/Building");
+require("./models/Apartment");
+require("./models/Fee");
+require("./models/Payment");
+require("./models/Expense");
+require("./models/Announcement");
+require("./models/Maintenance");
+require("./models/Fine");
+require("./models/Incident");
+require("./models/Reservation");
+require("./models/Assembly");
+require("./models/Vote");
+require("./models/Document");
+
 // Middlewares
 app.use(cors());
 app.use(express.json());
