@@ -36,6 +36,9 @@ app.use("/api/cuotas", require("./routes/feeRoutes"));
 app.use("/api/pagos", require("./routes/paymentRoutes"));
 app.use("/api/anuncios", require("./routes/announcementRoutes"));
 app.use("/api/gastos", require("./routes/expenseRoutes"));
+app.use("/api/mantenimiento", require("./routes/maintenanceRoutes"));
+app.use("/api/incidencias", require("./routes/incidentRoutes"));
+app.use("/api/multas", require("./routes/fineRoutes"));
 
 // Ruta de prueba
 app.get("/", (req, res) => {
