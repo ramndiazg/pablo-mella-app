@@ -40,6 +40,9 @@ app.use("/api/mantenimiento", require("./routes/maintenanceRoutes"));
 app.use("/api/incidencias", require("./routes/incidentRoutes"));
 app.use("/api/multas", require("./routes/fineRoutes"));
 app.use("/api/reservas", require("./routes/reservationRoutes"));
+app.use("/api/asambleas", require("./routes/assemblyRoutes"));
+app.use("/api/votaciones", require("./routes/voteRoutes"));
+app.use("/api/documentos", require("./routes/documentRoutes"));
 
 // Ruta de prueba
 app.get("/", (req, res) => {
