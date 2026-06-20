@@ -1,3 +1,5 @@
+inicio contexto
+
 # Proyecto: Pablo Mella Morales - Junta de Vecinos Manzana O-1
 
 ## Stack
@@ -104,3 +106,11 @@ pablo-mella-app/
 │ └── server.js
 
 └── frontend/ (pendiente)
+
+fin contexto
+
+Quedamos en arrancar el Módulo 8 — Frontend React con:
+
+- React + Vite + TailwindCSS
+- Panel de Admin y panel de Residente
+- Conexión al backend en localhost:5000
