@@ -56,10 +56,11 @@
 - [x] `src/pages/admin/Dashboard.jsx` — estadísticas reales del backend
 - [x] AlertBanner conectado en Layout.jsx
 
-### 🔲 Módulo 5 — Dashboard Residente (PENDIENTE)
+### ✅ Módulo 5 — Dashboard Residente (COMPLETO)
 
-- [ ] `src/pages/resident/Dashboard.jsx` — estado de cuenta, morosidad en rojo
-- [ ] `src/pages/resident/MyAccount.jsx` — historial de pagos
+- [x] `src/pages/resident/Dashboard.jsx` — estado de cuenta, morosidad, anuncios
+- [x] AlertBanner funciona en ambos dashboards
+- [x] Datos reales del backend: Juan Pérez al día, emergencia de corte de agua visible
 
 ### 🔲 Módulo 6 — Finanzas Admin (PENDIENTE)
 
@@ -127,8 +128,8 @@ frontend/
 │   │   ├── admin/
 │   │   │   └── Dashboard.jsx ✅
 │   │   └── resident/
-│   │       └── Dashboard.jsx ⚠️ placeholder
-│   ├── App.jsx ⚠️ temporal, solo muestra Login
+│   │   │   └── Dashboard.jsx ✅
+│   ├── App.jsx ✅
 │   ├── main.jsx ✅
 │   └── index.css ✅
 ├── index.html
