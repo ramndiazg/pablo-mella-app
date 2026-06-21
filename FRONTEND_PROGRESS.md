@@ -50,10 +50,11 @@
 - [x] Redirección post-login: admin → /admin/dashboard, residente → /residente/dashboard
 - [x] Cierre de sesión funciona
 
-### 🔲 Módulo 4 — Dashboard Admin (PENDIENTE)
+### ✅ Módulo 4 — Dashboard Admin (COMPLETO)
 
-- [ ] `src/components/AlertBanner.jsx` — emergencias en rojo al tope
-- [ ] `src/pages/admin/Dashboard.jsx` — estadísticas del backend
+- [x] `src/components/AlertBanner.jsx` — emergencias en rojo al tope
+- [x] `src/pages/admin/Dashboard.jsx` — estadísticas reales del backend
+- [x] AlertBanner conectado en Layout.jsx
 
 ### 🔲 Módulo 5 — Dashboard Residente (PENDIENTE)
 
@@ -119,11 +120,12 @@ frontend/
 │   ├── components/
 │   │   ├── PrivateRoute.jsx ✅
 │   │   ├── Sidebar.jsx ✅
-│   │   └── Layout.jsx ✅
+│   │   ├── Layout.jsx ✅
+│   │   └── AlertBanner.jsx ✅
 │   ├── pages/
 │   │   ├── Login.jsx ✅
 │   │   ├── admin/
-│   │   │   └── Dashboard.jsx ⚠️ placeholder
+│   │   │   └── Dashboard.jsx ✅
 │   │   └── resident/
 │   │       └── Dashboard.jsx ⚠️ placeholder
 │   ├── App.jsx ⚠️ temporal, solo muestra Login

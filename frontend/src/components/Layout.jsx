@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Sidebar from "./Sidebar";
+import AlertBanner from "./AlertBanner";
 
 export default function Layout({ children }) {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -21,6 +22,9 @@ export default function Layout({ children }) {
             Pablo Mella Morales
           </span>
         </div>
+
+        {/* Alertas de emergencia — visibles en todas las páginas */}
+        <AlertBanner />
 
         {/* Contenido */}
         <main className="flex-1 p-4 lg:p-6">{children}</main>
