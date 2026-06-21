@@ -62,11 +62,12 @@
 - [x] AlertBanner funciona en ambos dashboards
 - [x] Datos reales del backend: Juan Pérez al día, emergencia de corte de agua visible
 
-### 🔲 Módulo 6 — Finanzas Admin (PENDIENTE)
+### ✅ Módulo 6 — Finanzas Admin (COMPLETO)
 
-- [ ] `src/pages/admin/Fees.jsx` — crear cuotas
-- [ ] `src/pages/admin/Payments.jsx` — verificar comprobantes
-- [ ] `src/pages/admin/Expenses.jsx` — registrar gastos
+- [x] `src/pages/admin/Fees.jsx` — crear y listar cuotas
+- [x] `src/pages/admin/Payments.jsx` — verificar comprobantes
+- [x] `src/pages/admin/Expenses.jsx` — registrar gastos con FormData
+- [x] Rutas conectadas en App.jsx con AdminRoute y ResidenteRoute
 
 ### 🔲 Módulo 7 — Pagos Residente (PENDIENTE)
 
@@ -126,7 +127,10 @@ frontend/
 │   ├── pages/
 │   │   ├── Login.jsx ✅
 │   │   ├── admin/
-│   │   │   └── Dashboard.jsx ✅
+│   │   │   ├── Dashboard.jsx ✅
+│   │   │   ├── Fees.jsx ✅
+│   │   │   ├── Payments.jsx ✅
+│   │   │   └── Expenses.jsx ✅
 │   │   └── resident/
 │   │   │   └── Dashboard.jsx ✅
 │   ├── App.jsx ✅

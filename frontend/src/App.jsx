@@ -5,6 +5,9 @@ import PrivateRoute from "./components/PrivateRoute";
 import Layout from "./components/Layout";
 import Login from "./pages/Login";
 import AdminDashboard from "./pages/admin/Dashboard";
+import Fees from "./pages/admin/Fees";
+import Payments from "./pages/admin/Payments";
+import Expenses from "./pages/admin/Expenses";
 import ResidentDashboard from "./pages/resident/Dashboard";
 
 function RutaRaiz() {
@@ -18,42 +21,74 @@ function RutaRaiz() {
   );
 }
 
+function AdminRoute({ children }) {
+  return (
+    <PrivateRoute rol="admin">
+      <Layout>{children}</Layout>
+    </PrivateRoute>
+  );
+}
+
+function ResidenteRoute({ children }) {
+  return (
+    <PrivateRoute rol="residente">
+      <Layout>{children}</Layout>
+    </PrivateRoute>
+  );
+}
+
 export default function App() {
   return (
     <BrowserRouter>
       <Toaster position="top-center" />
       <Routes>
-        {/* Pública */}
         <Route path="/login" element={<Login />} />
-
-        {/* Raíz → redirige según rol */}
         <Route path="/" element={<RutaRaiz />} />
 
-        {/* Rutas admin */}
+        {/* Admin */}
         <Route
           path="/admin/dashboard"
           element={
-            <PrivateRoute rol="admin">
-              <Layout>
-                <AdminDashboard />
-              </Layout>
-            </PrivateRoute>
+            <AdminRoute>
+              <AdminDashboard />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/cuotas"
+          element={
+            <AdminRoute>
+              <Fees />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/pagos"
+          element={
+            <AdminRoute>
+              <Payments />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/gastos"
+          element={
+            <AdminRoute>
+              <Expenses />
+            </AdminRoute>
           }
         />
 
-        {/* Rutas residente */}
+        {/* Residente */}
         <Route
           path="/residente/dashboard"
           element={
-            <PrivateRoute rol="residente">
-              <Layout>
-                <ResidentDashboard />
-              </Layout>
-            </PrivateRoute>
+            <ResidenteRoute>
+              <ResidentDashboard />
+            </ResidenteRoute>
           }
         />
 
-        {/* Cualquier ruta desconocida → raíz */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
