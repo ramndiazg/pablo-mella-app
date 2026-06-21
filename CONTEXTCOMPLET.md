@@ -412,3 +412,10 @@ npm install date-fns
 - [x] Módulo 6: Reservas Gazebo y Salón
 - [x] Módulo 7: Asambleas, Votaciones y Documentos
 - [ ] Módulo 8: Frontend React (SIGUIENTE PASO)
+
+te voy a pasar la direccion de github del proyecto para que este en tu contexto https://github.com/ramndiazg/pablo-mella-app/tree/main
+cada vez que terminemos una parte recuerdame guardar los cambios en github
+
+notas:
+1-necesito que me asistas en la creacion de este frontend, dividir el trabajo en modulos que incluyan creacion de partes desde basicas a mas complejas y que en cada parte probemos lo hecho. dame un resumen de como puede ser ese acompanamiento antes de iniciar.
+2-primero el plan y luego un archivo a la vez, por ejemplo desde la pagina principal, luego el login, luego el dashboard y luego agregar elementos en secuencia y probar cada cosa y su funcionamiento con el backend
