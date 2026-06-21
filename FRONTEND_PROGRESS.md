@@ -69,10 +69,13 @@
 - [x] `src/pages/admin/Expenses.jsx` — registrar gastos con FormData
 - [x] Rutas conectadas en App.jsx con AdminRoute y ResidenteRoute
 
-### 🔲 Módulo 7 — Pagos Residente (PENDIENTE)
+### ✅ Módulo 7 — Pagos Residente (COMPLETO)
 
-- [ ] `src/components/CascadeSelect.jsx` — selector edificio → apartamento
-- [ ] `src/pages/resident/ReportPayment.jsx` — subir comprobante con FormData
+- [x] `src/components/CascadeSelect.jsx` — selector edificio → apartamento
+- [x] `src/pages/resident/ReportPayment.jsx` — subir comprobante con FormData
+- [x] Flujo completo probado: pago reportado → admin aprueba → desaparece
+- [x] Comprobante sube correctamente a Cloudinary
+- [ ] PENDIENTE: toast no visible cuando modal está abierto (Módulo 12)
 
 ### 🔲 Módulo 8 — Gestión Operativa Admin (PENDIENTE)
 
@@ -123,7 +126,8 @@ frontend/
 │   │   ├── PrivateRoute.jsx ✅
 │   │   ├── Sidebar.jsx ✅
 │   │   ├── Layout.jsx ✅
-│   │   └── AlertBanner.jsx ✅
+│   │   ├── AlertBanner.jsx ✅
+│   │   └── CascadeSelect.jsx ✅
 │   ├── pages/
 │   │   ├── Login.jsx ✅
 │   │   ├── admin/
@@ -132,7 +136,8 @@ frontend/
 │   │   │   ├── Payments.jsx ✅
 │   │   │   └── Expenses.jsx ✅
 │   │   └── resident/
-│   │   │   └── Dashboard.jsx ✅
+│   │       ├── Dashboard.jsx ✅
+│   │       └── ReportPayment.jsx ✅
 │   ├── App.jsx ✅
 │   ├── main.jsx ✅
 │   └── index.css ✅

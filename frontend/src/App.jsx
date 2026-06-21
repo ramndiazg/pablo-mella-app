@@ -9,6 +9,7 @@ import Fees from "./pages/admin/Fees";
 import Payments from "./pages/admin/Payments";
 import Expenses from "./pages/admin/Expenses";
 import ResidentDashboard from "./pages/resident/Dashboard";
+import ReportPayment from "./pages/resident/ReportPayment";
 
 function RutaRaiz() {
   const { usuario } = useAuth();
@@ -40,7 +41,7 @@ function ResidenteRoute({ children }) {
 export default function App() {
   return (
     <BrowserRouter>
-      <Toaster position="top-center" />
+      <Toaster position="top-center" containerStyle={{ zIndex: 9999 }} />
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<RutaRaiz />} />
@@ -85,6 +86,14 @@ export default function App() {
           element={
             <ResidenteRoute>
               <ResidentDashboard />
+            </ResidenteRoute>
+          }
+        />
+        <Route
+          path="/residente/pagar"
+          element={
+            <ResidenteRoute>
+              <ReportPayment />
             </ResidenteRoute>
           }
         />
