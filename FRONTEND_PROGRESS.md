@@ -41,13 +41,14 @@
 - [x] Login probado con admin@pablomella.com ✓ y juan@gmail.com ✓
 - [x] Token y usuario guardados en localStorage correctamente
 
-### 🔲 Módulo 3 — Navegación y rutas (PENDIENTE)
+### 🔲 Módulo 3 — Navegación y rutas (COMPLETO)
 
-- [ ] `src/components/Sidebar.jsx`
-- [ ] `src/components/Layout.jsx`
-- [ ] `src/components/PrivateRoute.jsx`
-- [ ] `src/App.jsx` con React Router y rutas protegidas por rol
-- [ ] Redirección post-login: admin → /admin/dashboard, residente → /residente/dashboard
+- [x] `src/components/PrivateRoute.jsx`
+- [x] `src/components/Sidebar.jsx`
+- [x] `src/components/Layout.jsx`
+- [x] `src/App.jsx` con React Router y rutas protegidas por rol
+- [x] Redirección post-login: admin → /admin/dashboard, residente → /residente/dashboard
+- [x] Cierre de sesión funciona
 
 ### 🔲 Módulo 4 — Dashboard Admin (PENDIENTE)
 
@@ -115,8 +116,16 @@ frontend/
 │   │   └── axios.js ✅
 │   ├── context/
 │   │   └── AuthContext.jsx ✅
+│   ├── components/
+│   │   ├── PrivateRoute.jsx ✅
+│   │   ├── Sidebar.jsx ✅
+│   │   └── Layout.jsx ✅
 │   ├── pages/
-│   │   └── Login.jsx ✅
+│   │   ├── Login.jsx ✅
+│   │   ├── admin/
+│   │   │   └── Dashboard.jsx ⚠️ placeholder
+│   │   └── resident/
+│   │       └── Dashboard.jsx ⚠️ placeholder
 │   ├── App.jsx ⚠️ temporal, solo muestra Login
 │   ├── main.jsx ✅
 │   └── index.css ✅

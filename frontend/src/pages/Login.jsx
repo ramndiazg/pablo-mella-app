@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -7,6 +8,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [cargando, setCargando] = useState(false);
   const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,7 +20,9 @@ export default function Login() {
     try {
       const usuario = await login(email, password);
       toast.success(`Bienvenido, ${usuario.nombre}`);
-      // Por ahora solo mostramos el mensaje, la redirección viene en el módulo 3
+      navigate(
+        usuario.rol === "admin" ? "/admin/dashboard" : "/residente/dashboard",
+      );
     } catch (err) {
       toast.error(err.response?.data?.mensaje || "Credenciales incorrectas");
     } finally {
@@ -31,7 +35,6 @@ export default function Login() {
       <Toaster position="top-center" />
 
       <div className="w-full max-w-md">
-        {/* Logo */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-white rounded-2xl shadow-lg mb-4">
             <span className="text-3xl">🏢</span>
@@ -42,7 +45,6 @@ export default function Login() {
           </p>
         </div>
 
-        {/* Formulario */}
         <div className="bg-white rounded-2xl shadow-xl p-8">
           <h2 className="text-lg font-semibold text-gray-800 mb-6">
             Iniciar sesión
