@@ -77,13 +77,14 @@
 - [x] Comprobante sube correctamente a Cloudinary
 - [ ] PENDIENTE: toast no visible cuando modal está abierto (Módulo 12)
 
-### 🔲 Módulo 8 — Gestión Operativa Admin (PENDIENTE)
+### ✅ Módulo 8 — Gestión Operativa Admin (COMPLETO)
 
-- [ ] `src/pages/admin/Maintenance.jsx`
-- [ ] `src/pages/admin/Incidents.jsx`
-- [ ] `src/pages/admin/Fines.jsx`
-- [ ] `src/pages/admin/Buildings.jsx`
-- [ ] `src/pages/admin/Residents.jsx`
+- [x] `src/pages/admin/Maintenance.jsx`
+- [x] `src/pages/admin/Incidents.jsx`
+- [x] `src/pages/admin/Fines.jsx`
+- [x] `src/pages/admin/Buildings.jsx`
+- [x] `src/pages/admin/Residents.jsx`
+- [x] Todas las rutas conectadas en App.jsx
 
 ### 🔲 Módulo 9 — Operativa Residente (PENDIENTE)
 
@@ -110,6 +111,7 @@
 - [ ] Cambio de contraseña (ambos roles)
 - [ ] Silenciar warnings de ESLint
 - [ ] Prueba completa de flujos críticos
+- [ ] PENDIENTE: agregar aviso ⚠️ en formulario de Fees.jsx "Verifica el monto antes de crear — no se puede editar después"
 
 ---
 
@@ -134,6 +136,11 @@ frontend/
 │   │   │   ├── Dashboard.jsx ✅
 │   │   │   ├── Fees.jsx ✅
 │   │   │   ├── Payments.jsx ✅
+│   │   |   ├── Maintenance.jsx ✅
+│   │   |   ├── Incidents.jsx ✅
+│   │   |   ├── Fines.jsx ✅
+│   │   |   └──  Buildings.jsx ✅
+│   │   └── Residents.jsx ✅
 │   │   │   └── Expenses.jsx ✅
 │   │   └── resident/
 │   │       ├── Dashboard.jsx ✅

@@ -3,11 +3,19 @@ import { Toaster } from "react-hot-toast";
 import { useAuth } from "./context/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
 import Layout from "./components/Layout";
+
 import Login from "./pages/Login";
+
 import AdminDashboard from "./pages/admin/Dashboard";
 import Fees from "./pages/admin/Fees";
 import Payments from "./pages/admin/Payments";
 import Expenses from "./pages/admin/Expenses";
+import Maintenance from "./pages/admin/Maintenance";
+import Incidents from "./pages/admin/Incidents";
+import Fines from "./pages/admin/Fines";
+import Buildings from "./pages/admin/Buildings";
+import Residents from "./pages/admin/Residents";
+
 import ResidentDashboard from "./pages/resident/Dashboard";
 import ReportPayment from "./pages/resident/ReportPayment";
 
@@ -76,6 +84,46 @@ export default function App() {
           element={
             <AdminRoute>
               <Expenses />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/mantenimiento"
+          element={
+            <AdminRoute>
+              <Maintenance />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/incidencias"
+          element={
+            <AdminRoute>
+              <Incidents />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/multas"
+          element={
+            <AdminRoute>
+              <Fines />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/edificios"
+          element={
+            <AdminRoute>
+              <Buildings />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/residentes"
+          element={
+            <AdminRoute>
+              <Residents />
             </AdminRoute>
           }
         />
