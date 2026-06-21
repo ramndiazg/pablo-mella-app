@@ -127,7 +127,7 @@ pablo-mella-app/
 
 │ └── server.js
 
-└── frontend/ ← CREAR AQUÍ con React + Vite + TailwindCSS
+└── frontend/
 
 ## CREDENCIALES DE PRUEBA
 
@@ -285,98 +285,6 @@ DELETE /api/documentos/:id ← solo admin
 - Al login se guarda también el objeto usuario completo
 - Si el token expira (401) → redirigir al login
 
-## ESTRUCTURA FRONTEND A CREAR
-
-frontend/
-
-├── src/
-
-│ ├── main.jsx
-
-│ ├── App.jsx
-
-│ ├── api/
-
-│ │ └── axios.js ← instancia base con JWT automático
-
-│ ├── context/
-
-│ │ └── AuthContext.jsx ← estado global usuario logueado
-
-│ ├── components/
-
-│ │ ├── Navbar.jsx
-
-│ │ ├── Sidebar.jsx
-
-│ │ ├── PrivateRoute.jsx
-
-│ │ ├── AlertBanner.jsx ← muestra emergencias en rojo
-
-│ │ └── CascadeSelect.jsx ← selector edificio → apartamento
-
-│ └── pages/
-
-│ ├── Login.jsx
-
-│ ├── admin/
-
-│ │ ├── Dashboard.jsx ← resumen general
-
-│ │ ├── Residents.jsx ← crear y gestionar residentes
-
-│ │ ├── Buildings.jsx ← crear edificios
-
-│ │ ├── Fees.jsx ← crear cuotas
-
-│ │ ├── Payments.jsx ← verificar comprobantes
-
-│ │ ├── Expenses.jsx ← registrar gastos
-
-│ │ ├── Announcements.jsx ← anuncios y alertas
-
-│ │ ├── Maintenance.jsx ← solicitudes de mantenimiento
-
-│ │ ├── Incidents.jsx ← incidencias entre vecinos
-
-│ │ ├── Fines.jsx ← multas
-
-│ │ ├── Reservations.jsx ← aprobar reservas
-
-│ │ ├── Assemblies.jsx ← asambleas y votaciones
-
-│ │ └── Documents.jsx ← documentos
-
-│ └── resident/
-
-│ ├── Dashboard.jsx ← estado cuenta + alertas
-
-│ ├── MyAccount.jsx ← mis pagos + morosidad
-
-│ ├── ReportPayment.jsx ← subir comprobante
-
-│ ├── Maintenance.jsx ← mis solicitudes
-
-│ ├── Incidents.jsx ← reportar incidencia
-
-│ ├── Fines.jsx ← mis multas
-
-│ ├── Reservations.jsx ← hacer reservas + calendario
-
-│ ├── Announcements.jsx ← anuncios
-
-│ ├── Assemblies.jsx ← asambleas y votar
-
-│ └── Documents.jsx ← documentos
-
-├── index.html
-
-├── vite.config.js
-
-├── tailwind.config.js
-
-└── package.json
-
 ## DEPENDENCIAS FRONTEND A INSTALAR
 
 ```bash
@@ -411,7 +319,6 @@ npm install date-fns
 - [x] Módulo 5: Mantenimiento, Incidencias y Multas
 - [x] Módulo 6: Reservas Gazebo y Salón
 - [x] Módulo 7: Asambleas, Votaciones y Documentos
-- [ ] Módulo 8: Frontend React (SIGUIENTE PASO)
 
 te voy a pasar la direccion de github del proyecto para que este en tu contexto https://github.com/ramndiazg/pablo-mella-app/tree/main
 cada vez que terminemos una parte recuerdame guardar los cambios en github

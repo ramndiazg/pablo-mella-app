@@ -86,11 +86,11 @@
 - [x] `src/pages/admin/Residents.jsx`
 - [x] Todas las rutas conectadas en App.jsx
 
-### 🔲 Módulo 9 — Operativa Residente (PENDIENTE)
+### 🔲 Módulo 9 — Operativa Residente (COMPLETO)
 
-- [ ] `src/pages/resident/Maintenance.jsx`
-- [ ] `src/pages/resident/Incidents.jsx`
-- [ ] `src/pages/resident/Fines.jsx`
+- [x] `src/pages/resident/Maintenance.jsx`
+- [x] `src/pages/resident/Incidents.jsx`
+- [x] `src/pages/resident/Fines.jsx`
 
 ### 🔲 Módulo 10 — Reservas (PENDIENTE)
 
