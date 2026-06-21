@@ -184,3 +184,100 @@ Luego indica en qué módulo continuar.
 - Frontend: http://localhost:3000
 
 se debe actualizar este archivo para cada commit
+
+## Guía de estilos — para mantener consistencia
+
+### Colores principales
+
+- Azul primario: `bg-blue-600` / `text-blue-600` / `hover:bg-blue-700`
+- Fondo de página: `bg-gray-50`
+- Tarjetas: `bg-white rounded-xl border border-gray-100 shadow-sm p-4`
+- Texto principal: `text-gray-900`
+- Texto secundario: `text-gray-500`
+- Texto pequeño: `text-gray-400`
+
+### Badges de estado (usar siempre estos)
+
+```jsx
+pendiente: "bg-yellow-100 text-yellow-700";
+en_proceso: "bg-blue-100 text-blue-700";
+resuelto: "bg-green-100 text-green-700";
+aprobado: "bg-green-100 text-green-700";
+rechazado: "bg-red-100 text-red-700";
+pagada: "bg-green-100 text-green-700";
+anulada: "bg-gray-100 text-gray-600";
+```
+
+### Botones
+
+```jsx
+// Primario
+"bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors";
+// Secundario
+"bg-white text-gray-700 px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors";
+// Peligro
+"bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-700 transition-colors";
+// Éxito
+"bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-700 transition-colors";
+```
+
+### Inputs y selects
+
+```jsx
+"w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500";
+```
+
+### Labels
+
+```jsx
+"block text-sm font-medium text-gray-700 mb-1";
+```
+
+### Modales
+
+```jsx
+// Overlay
+"fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4";
+// Contenedor
+"bg-white rounded-2xl w-full max-w-md p-6 shadow-xl";
+```
+
+### Filtros de estado (tabs)
+
+```jsx
+// Activo
+"bg-blue-600 text-white px-3 py-1.5 rounded-full text-sm font-medium";
+// Inactivo
+"bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 px-3 py-1.5 rounded-full text-sm font-medium";
+```
+
+### Páginas vacías (empty state)
+
+```jsx
+<div className="bg-white rounded-xl border border-gray-100 shadow-sm p-12 text-center text-gray-400">
+  <p className="text-3xl mb-2">🔧</p>
+  <p className="text-sm">Mensaje aquí</p>
+</div>
+```
+
+### Encabezado de página estándar
+
+```jsx
+<div className="flex items-center justify-between">
+  <div>
+    <h1 className="text-xl font-bold text-gray-900">Título</h1>
+    <p className="text-sm text-gray-500">Subtítulo</p>
+  </div>
+  <button className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700">
+    + Acción
+  </button>
+</div>
+```
+
+### Patrones importantes
+
+- Espaciado entre secciones: `space-y-4` en el contenedor principal
+- Grids: `grid grid-cols-2 gap-3` para formularios de 2 columnas
+- Loading spinner: `<div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>`
+- Siempre usar `toast.success()` y `toast.error()` para feedback
+- FormData para: pagos, multas, mantenimiento, gastos, documentos, actas

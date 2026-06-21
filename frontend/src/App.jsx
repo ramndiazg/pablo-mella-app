@@ -3,6 +3,9 @@ import { Toaster } from "react-hot-toast";
 import { useAuth } from "./context/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
 import Layout from "./components/Layout";
+import ResidentMaintenance from "./pages/resident/Maintenance";
+import ResidentIncidents from "./pages/resident/Incidents";
+import ResidentFines from "./pages/resident/Fines";
 
 import Login from "./pages/Login";
 
@@ -142,6 +145,30 @@ export default function App() {
           element={
             <ResidenteRoute>
               <ReportPayment />
+            </ResidenteRoute>
+          }
+        />
+        <Route
+          path="/residente/mantenimiento"
+          element={
+            <ResidenteRoute>
+              <ResidentMaintenance />
+            </ResidenteRoute>
+          }
+        />
+        <Route
+          path="/residente/incidencias"
+          element={
+            <ResidenteRoute>
+              <ResidentIncidents />
+            </ResidenteRoute>
+          }
+        />
+        <Route
+          path="/residente/multas"
+          element={
+            <ResidenteRoute>
+              <ResidentFines />
             </ResidenteRoute>
           }
         />
