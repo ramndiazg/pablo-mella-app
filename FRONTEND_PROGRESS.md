@@ -92,10 +92,13 @@
 - [x] `src/pages/resident/Incidents.jsx`
 - [x] `src/pages/resident/Fines.jsx`
 
-### 🔲 Módulo 10 — Reservas (PENDIENTE)
+### ✅ Módulo 10 — Reservas (COMPLETO)
 
-- [ ] `src/pages/admin/Reservations.jsx`
-- [ ] `src/pages/resident/Reservations.jsx` — con calendario
+- [x] `src/pages/admin/Reservations.jsx — aprobar/rechazar con motivo obligatorio`
+- [x] `src/pages/resident/Reservations.jsx — calendario + crear + cancelar`
+- [x] `Rutas conectadas en App.jsx (sin Layout duplicado)`
+- [x] `Regla de negocio validada: solo una reserva activa por apartamento`
+- [x] `Error 403 por morosidad manejado`
 
 ### 🔲 Módulo 11 — Asambleas y Documentos (PENDIENTE)
 
@@ -139,12 +142,16 @@ frontend/
 │   │   |   ├── Maintenance.jsx ✅
 │   │   |   ├── Incidents.jsx ✅
 │   │   |   ├── Fines.jsx ✅
+│   │   │   └── Reservations.jsx ✅
 │   │   |   └──  Buildings.jsx ✅
-│   │   └── Residents.jsx ✅
 │   │   │   └── Expenses.jsx ✅
 │   │   └── resident/
 │   │       ├── Dashboard.jsx ✅
-│   │       └── ReportPayment.jsx ✅
+│   │       ├── ReportPayment.jsx ✅
+│   │       ├── Maintenance.jsx ✅
+│   │       ├── Incidents.jsx ✅
+│   │       ├── Fines.jsx ✅
+│   │       └── Reservations.jsx ✅
 │   ├── App.jsx ✅
 │   ├── main.jsx ✅
 │   └── index.css ✅
@@ -281,3 +288,27 @@ anulada: "bg-gray-100 text-gray-600";
 - Loading spinner: `<div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>`
 - Siempre usar `toast.success()` y `toast.error()` para feedback
 - FormData para: pagos, multas, mantenimiento, gastos, documentos, actas
+
+Lo que falta para la próxima sesión
+Módulo 10 — Reservas
+
+admin/Reservations.jsx — aprobar/rechazar reservas
+resident/Reservations.jsx — hacer reservas + calendario
+
+Módulo 11 — Asambleas y Documentos
+
+admin/Assemblies.jsx — crear asambleas y votaciones
+resident/Assemblies.jsx — ver asambleas y votar
+admin/Documents.jsx — subir documentos
+resident/Documents.jsx — ver documentos
+
+Módulo 12 — Ajustes finales
+
+admin/Announcements.jsx — crear anuncios y alertas
+resident/Announcements.jsx — ver anuncios
+resident/MyAccount.jsx — historial de pagos
+Cambio de contraseña (ambos roles)
+Toast visible cuando modal está abierto
+Aviso ⚠️ en Fees.jsx sobre el monto
+Silenciar warnings de ESLint restantes
+Prueba completa de todos los flujos

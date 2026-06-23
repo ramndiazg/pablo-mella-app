@@ -6,6 +6,10 @@ import Layout from "./components/Layout";
 import ResidentMaintenance from "./pages/resident/Maintenance";
 import ResidentIncidents from "./pages/resident/Incidents";
 import ResidentFines from "./pages/resident/Fines";
+import AdminAssemblies from "./pages/admin/Assemblies";
+import ResidentAssemblies from "./pages/resident/Assemblies";
+import AdminDocuments from "./pages/admin/Documents";
+import ResidentDocuments from "./pages/resident/Documents";
 
 import Login from "./pages/Login";
 
@@ -18,6 +22,8 @@ import Incidents from "./pages/admin/Incidents";
 import Fines from "./pages/admin/Fines";
 import Buildings from "./pages/admin/Buildings";
 import Residents from "./pages/admin/Residents";
+import AdminReservations from "./pages/admin/Reservations";
+import ResidentReservations from "./pages/resident/Reservations";
 
 import ResidentDashboard from "./pages/resident/Dashboard";
 import ReportPayment from "./pages/resident/ReportPayment";
@@ -130,6 +136,30 @@ export default function App() {
             </AdminRoute>
           }
         />
+        <Route
+          path="/admin/reservas"
+          element={
+            <AdminRoute>
+              <AdminReservations />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/asambleas"
+          element={
+            <AdminRoute>
+              <AdminAssemblies />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/documentos"
+          element={
+            <AdminRoute>
+              <AdminDocuments />
+            </AdminRoute>
+          }
+        />
 
         {/* Residente */}
         <Route
@@ -169,6 +199,30 @@ export default function App() {
           element={
             <ResidenteRoute>
               <ResidentFines />
+            </ResidenteRoute>
+          }
+        />
+        <Route
+          path="/residente/reservas"
+          element={
+            <ResidenteRoute>
+              <ResidentReservations />
+            </ResidenteRoute>
+          }
+        />
+        <Route
+          path="/residente/asambleas"
+          element={
+            <ResidenteRoute>
+              <ResidentAssemblies />
+            </ResidenteRoute>
+          }
+        />
+        <Route
+          path="/residente/documentos"
+          element={
+            <ResidenteRoute>
+              <ResidentDocuments />
             </ResidenteRoute>
           }
         />
