@@ -15,6 +15,7 @@ const adminLinks = [
   { to: "/admin/reservas", emoji: "📅", label: "Reservas" },
   { to: "/admin/asambleas", emoji: "🗳️", label: "Asambleas" },
   { to: "/admin/documentos", emoji: "📁", label: "Documentos" },
+  { to: "/admin/mi-cuenta", emoji: "👤", label: "Mi Cuenta" },
 ];
 
 const residenteLinks = [

@@ -123,8 +123,8 @@
 - [x] `src/pages/resident/MyAccount.jsx` — historial de pagos + cambio de contraseña
 - [x] Fix: toast visible con modal abierto (Toaster duplicado en Login.jsx)
 - [x] Aviso ⚠️ en Fees.jsx sobre el monto
-- [ ] src/pages/admin/MyAccount.jsx — cambio de contraseña admin
-- [ ] Rutas de anuncios y mi-cuenta conectadas en App.jsx ✅
+- [x] src/pages/admin/MyAccount.jsx — cambio de contraseña admin
+- [x] Rutas de anuncios y mi-cuenta conectadas en App.jsx ✅
 
 ### 🔴 Módulo 13 — Reestructuración de Finanzas (PENDIENTE — PRIORITARIO)
 

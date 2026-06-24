@@ -26,6 +26,7 @@ import Residents from "./pages/admin/Residents";
 import AdminReservations from "./pages/admin/Reservations";
 import ResidentReservations from "./pages/resident/Reservations";
 import AdminAnnouncements from "./pages/admin/Announcements";
+import AdminMyAccount from "./pages/admin/MyAccount";
 import ResidentAnnouncements from "./pages/resident/Announcements";
 
 import ResidentDashboard from "./pages/resident/Dashboard";
@@ -75,6 +76,14 @@ export default function App() {
         <Route path="/" element={<RutaRaiz />} />
 
         {/* Admin */}
+        <Route
+          path="/admin/mi-cuenta"
+          element={
+            <AdminRoute>
+              <AdminMyAccount />
+            </AdminRoute>
+          }
+        />
         <Route
           path="/admin/anuncios"
           element={
