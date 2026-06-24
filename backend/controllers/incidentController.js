@@ -34,6 +34,37 @@ const crearIncidencia = async (req, res) => {
   }
 };
 
+// @desc    Obtener mis incidencias (residente)
+// @route   GET /api/incidencias/mis-incidencias
+// @access  Private
+const getMisIncidencias = async (req, res) => {
+  try {
+    if (!req.user.apartamentoId) {
+      return res
+        .status(400)
+        .json({ mensaje: "No tienes apartamento asignado" });
+    }
+
+    const incidencias = await Incident.find({
+      apartamentoId: req.user.apartamentoId,
+    }).sort({ createdAt: -1 });
+
+    const incidenciasFormateadas = incidencias.map((inc) => {
+      const obj = inc.toObject();
+      if (obj.anonimo) {
+        obj.reportadoPor = { nombre: "Anónimo" };
+      }
+      return obj;
+    });
+
+    res.json(incidenciasFormateadas);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ mensaje: "Error en el servidor", error: error.message });
+  }
+};
+
 // @desc    Obtener todas las incidencias
 // @route   GET /api/incidencias
 // @access  Private/Admin
@@ -99,4 +130,9 @@ const actualizarIncidencia = async (req, res) => {
   }
 };
 
-module.exports = { crearIncidencia, getIncidencias, actualizarIncidencia };
+module.exports = {
+  crearIncidencia,
+  getIncidencias,
+  actualizarIncidencia,
+  getMisIncidencias,
+};

@@ -203,7 +203,7 @@ export default function AdminAssemblies() {
                     </p>
                   )}
                 </div>
-                <div className="flex gap-2 shrink-0 flex-wrap justify-end">
+                <div className="flex flex-col sm:flex-row gap-2 shrink-0">
                   <button
                     onClick={() => verDetalle(a._id)}
                     className="bg-white text-gray-700 px-3 py-1.5 rounded-lg border border-gray-300 hover:bg-gray-50 text-sm transition-colors"

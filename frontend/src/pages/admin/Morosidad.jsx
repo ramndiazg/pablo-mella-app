@@ -18,7 +18,6 @@ const MESES = [
 ];
 
 export default function Morosidad() {
-  const [, setEdificios] = useState([]);
   const [resultados, setResultados] = useState([]);
   const [loading, setLoading] = useState(false);
   const [filtro, setFiltro] = useState("todos");
@@ -27,14 +26,11 @@ export default function Morosidad() {
     try {
       setLoading(true);
       const { data: edifs } = await api.get("/edificios");
-      setEdificios(edifs);
-
-      // Para cada edificio obtener sus apartamentos y verificar morosidad
       const todos = [];
       for (const edif of edifs) {
         const { data } = await api.get(`/edificios/${edif._id}`);
         for (const apt of data.apartamentos || []) {
-          if (!apt.residenteActualId) continue; // sin residente
+          if (!apt.residenteActualId) continue;
           try {
             const { data: moroso } = await api.get(`/pagos/moroso/${apt._id}`);
             todos.push({
@@ -101,7 +97,7 @@ export default function Morosidad() {
           <p className="text-2xl font-bold text-gray-900">
             {resultados.length}
           </p>
-          <p className="text-xs text-gray-500 mt-0.5">Total apartamentos</p>
+          <p className="text-xs text-gray-500 mt-0.5">Total</p>
         </div>
         <div className="bg-red-50 rounded-xl border border-red-200 shadow-sm p-4 text-center">
           <p className="text-2xl font-bold text-red-700">{totalMorosos}</p>
@@ -117,7 +113,7 @@ export default function Morosidad() {
       {totalDeuda > 0 && (
         <div className="bg-red-50 border border-red-200 rounded-xl p-4">
           <p className="text-sm text-red-700">
-            💰 Total adeudado por morosos:{" "}
+            💰 Total adeudado:{" "}
             <span className="font-bold text-lg">
               RD$ {totalDeuda.toLocaleString()}
             </span>
@@ -126,7 +122,7 @@ export default function Morosidad() {
       )}
 
       {/* Filtros */}
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2">
         {[
           { key: "todos", label: "Todos" },
           { key: "morosos", label: `Morosos (${totalMorosos})` },
@@ -156,77 +152,68 @@ export default function Morosidad() {
           <p className="text-sm">No hay resultados para este filtro</p>
         </div>
       ) : (
-        <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-          {/* Encabezado tabla */}
-          <div className="grid grid-cols-12 gap-2 px-4 py-2 bg-gray-50 border-b border-gray-100 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-            <div className="col-span-1">Apto</div>
-            <div className="col-span-2">Edificio</div>
-            <div className="col-span-3">Residente</div>
-            <div className="col-span-2">Estado</div>
-            <div className="col-span-2">Meses que debe</div>
-            <div className="col-span-2 text-right">Total deuda</div>
-          </div>
-
-          {/* Filas */}
+        <div className="space-y-3">
           {filtrados.map((r, i) => {
             const deudaTotal = r.detalle?.reduce((s, d) => s + d.monto, 0) || 0;
             return (
               <div
                 key={i}
-                className={`grid grid-cols-12 gap-2 px-4 py-3 border-b border-gray-50 text-sm items-start ${
-                  r.esMoroso ? "bg-red-50/30" : ""
+                className={`bg-white rounded-xl border shadow-sm p-4 ${
+                  r.esMoroso ? "border-red-200 bg-red-50/30" : "border-gray-100"
                 }`}
               >
-                <div className="col-span-1 font-medium text-gray-900">
-                  {r.apartamento.numero}
-                </div>
-                <div className="col-span-2 text-gray-600">
-                  {r.edificio.nombre || `Edif. ${r.edificio.numero}`}
-                </div>
-                <div className="col-span-3 text-gray-700">
-                  <p className="truncate">{r.residente?.nombre || "—"}</p>
-                  <p className="text-xs text-gray-400 truncate">
-                    {r.residente?.email || ""}
-                  </p>
-                </div>
-                <div className="col-span-2">
-                  <span
-                    className={`text-xs px-2 py-0.5 rounded-full font-medium ${
-                      r.esMoroso
-                        ? "bg-red-100 text-red-700"
-                        : "bg-green-100 text-green-700"
-                    }`}
-                  >
-                    {r.esMoroso ? "Moroso" : "Al día"}
-                  </span>
-                  {r.multasPendientes > 0 && (
-                    <p className="text-xs text-orange-600 mt-0.5">
-                      {r.multasPendientes} multa(s)
-                    </p>
-                  )}
-                </div>
-                <div className="col-span-2">
-                  {r.detalle?.length > 0 ? (
-                    <div className="space-y-0.5">
-                      {r.detalle.map((d, j) => (
-                        <p key={j} className="text-xs text-red-600">
-                          {MESES[d.mes - 1]} {d.anio}
-                        </p>
-                      ))}
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="font-semibold text-gray-900">
+                        Apto {r.apartamento.numero}
+                      </span>
+                      <span className="text-xs text-gray-500">
+                        {r.edificio.nombre || `Edif. ${r.edificio.numero}`}
+                      </span>
+                      <span
+                        className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+                          r.esMoroso
+                            ? "bg-red-100 text-red-700"
+                            : "bg-green-100 text-green-700"
+                        }`}
+                      >
+                        {r.esMoroso ? "Moroso" : "Al día"}
+                      </span>
                     </div>
-                  ) : (
-                    <span className="text-xs text-gray-400">—</span>
+                    <p className="text-sm text-gray-700 mt-1">
+                      {r.residente?.nombre || "—"}
+                    </p>
+                    <p className="text-xs text-gray-400">
+                      {r.residente?.email || ""}
+                    </p>
+                    {r.multasPendientes > 0 && (
+                      <p className="text-xs text-orange-600 mt-0.5">
+                        🚫 {r.multasPendientes} multa(s) pendiente(s)
+                      </p>
+                    )}
+                  </div>
+                  {deudaTotal > 0 && (
+                    <div className="text-right shrink-0">
+                      <p className="font-bold text-red-700">
+                        RD$ {deudaTotal.toLocaleString()}
+                      </p>
+                      <p className="text-xs text-gray-400">total deuda</p>
+                    </div>
                   )}
                 </div>
-                <div className="col-span-2 text-right">
-                  {deudaTotal > 0 ? (
-                    <span className="font-semibold text-red-700">
-                      RD$ {deudaTotal.toLocaleString()}
-                    </span>
-                  ) : (
-                    <span className="text-gray-400">—</span>
-                  )}
-                </div>
+                {r.detalle?.length > 0 && (
+                  <div className="mt-3 pt-3 border-t border-gray-100 flex flex-wrap gap-2">
+                    {r.detalle.map((d, j) => (
+                      <span
+                        key={j}
+                        className="text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded-full"
+                      >
+                        {MESES[d.mes - 1]} {d.anio}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
             );
           })}

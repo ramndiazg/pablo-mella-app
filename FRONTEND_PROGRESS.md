@@ -140,6 +140,28 @@
 - [x] Ruta /admin/morosidad conectada en App.jsx
 - [x] Link Morosidad agregado en Sidebar admin
 
+### ✅ Módulo 14 — Bugs y mejoras post-pruebas (COMPLETO)
+
+- [x] ReportPayment.jsx — solo muestra cuotas que el residente debe
+- [x] admin/Dashboard.jsx — cards clickeables + responsive 1 col móvil
+- [x] backend: GET /api/incidencias/mis-incidencias para residente
+- [x] resident/Incidents.jsx — usa nuevo endpoint mis-incidencias
+- [x] admin/Incidents.jsx — incidencias anónimas no muestran apartamento
+- [x] resident/Dashboard.jsx — grid 1 col en móvil
+- [x] admin/Morosidad.jsx — rediseño en cards responsive
+- [x] admin/Assemblies.jsx — botones responsive en móvil
+- [x] backend: authController.js — GET /api/auth/usuarios para listar usuarios
+- [x] admin/Buildings.jsx — botón asignar residente en apartamentos disponibles
+- [x] backend: register ahora actualiza residenteActualId en apartamento
+
+### 🔴 Módulo 15 — Contabilidad Admin (PENDIENTE)
+
+- Panel de ingresos vs gastos con balance
+- Filtro por mes/año
+- Tabla detallada de movimientos
+- Exportar a PDF o Excel
+- Útil para cambio de administración y transparencia
+
 Archivos a revisar antes de hacer cambios:
 
 - frontend: ReportPayment.jsx, resident/MyAccount.jsx, resident/Dashboard.jsx

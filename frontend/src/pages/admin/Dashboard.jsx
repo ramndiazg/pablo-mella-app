@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 import api from "../../api/axios";
 
-function StatCard({ emoji, label, value, color = "blue" }) {
+function StatCard({ emoji, label, value, color = "blue", onClick }) {
   const colors = {
     blue: "bg-blue-50 text-blue-600",
     yellow: "bg-yellow-50 text-yellow-600",
@@ -11,7 +12,14 @@ function StatCard({ emoji, label, value, color = "blue" }) {
     purple: "bg-purple-50 text-purple-600",
   };
   return (
-    <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 flex items-center gap-4">
+    <div
+      onClick={onClick}
+      className={`bg-white rounded-xl border border-gray-100 shadow-sm p-5 flex items-center gap-4 ${
+        onClick
+          ? "cursor-pointer hover:shadow-md hover:border-gray-200 transition-all"
+          : ""
+      }`}
+    >
       <div className={`p-3 rounded-xl text-2xl ${colors[color]}`}>{emoji}</div>
       <div>
         <p className="text-2xl font-bold text-gray-900">{value ?? "—"}</p>
@@ -23,6 +31,7 @@ function StatCard({ emoji, label, value, color = "blue" }) {
 
 export default function AdminDashboard() {
   const { usuario } = useAuth();
+  const navigate = useNavigate();
   const [stats, setStats] = useState(null);
   const [pagosRecientes, setPagosRecientes] = useState([]);
   const [cargando, setCargando] = useState(true);
@@ -89,48 +98,90 @@ export default function AdminDashboard() {
 
   return (
     <div className="space-y-6">
-      {/* Encabezado */}
       <div>
         <h1 className="text-xl font-bold text-gray-900">Panel de Control</h1>
         <p className="text-sm text-gray-500">
-          Bienvenido, {usuario?.nombre} • {mesesNombre[mes - 1]} {anio}
+          Bienvenido, {usuario?.nombre} · {mesesNombre[mes - 1]} {anio}
         </p>
       </div>
 
-      {/* Tarjetas */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* Tarjetas clickeables */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
           emoji="🧾"
           label="Pagos por verificar"
           value={stats.pagosPendientes}
           color="yellow"
+          onClick={() => navigate("/admin/pagos")}
         />
         <StatCard
           emoji="🔧"
           label="Mantenimiento pendiente"
           value={stats.mantPendientes}
           color="blue"
+          onClick={() => navigate("/admin/mantenimiento")}
         />
         <StatCard
           emoji="📅"
           label="Reservas por aprobar"
           value={stats.resPendientes}
           color="purple"
+          onClick={() => navigate("/admin/reservas")}
         />
         <StatCard
           emoji="⚠️"
           label="Incidencias abiertas"
           value={stats.incPendientes}
           color="red"
+          onClick={() => navigate("/admin/incidencias")}
         />
+      </div>
+
+      {/* Accesos rápidos */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div
+          onClick={() => navigate("/admin/morosidad")}
+          className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 flex items-center gap-3 cursor-pointer hover:shadow-md transition-all"
+        >
+          <span className="text-2xl">📊</span>
+          <span className="text-sm font-medium text-gray-700">
+            Panel de morosidad
+          </span>
+        </div>
+        <div
+          onClick={() => navigate("/admin/anuncios")}
+          className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 flex items-center gap-3 cursor-pointer hover:shadow-md transition-all"
+        >
+          <span className="text-2xl">📢</span>
+          <span className="text-sm font-medium text-gray-700">
+            Publicar anuncio
+          </span>
+        </div>
+        <div
+          onClick={() => navigate("/admin/residentes")}
+          className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 flex items-center gap-3 cursor-pointer hover:shadow-md transition-all"
+        >
+          <span className="text-2xl">👥</span>
+          <span className="text-sm font-medium text-gray-700">
+            Ver residentes
+          </span>
+        </div>
       </div>
 
       {/* Pagos recientes pendientes */}
       {pagosRecientes.length > 0 && (
         <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-          <h2 className="text-sm font-semibold text-gray-700 mb-4">
-            Comprobantes recientes por verificar
-          </h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-sm font-semibold text-gray-700">
+              Comprobantes recientes por verificar
+            </h2>
+            <button
+              onClick={() => navigate("/admin/pagos")}
+              className="text-xs text-blue-600 hover:underline"
+            >
+              Ver todos →
+            </button>
+          </div>
           <div className="space-y-3">
             {pagosRecientes.map((pago) => (
               <div
@@ -142,13 +193,13 @@ export default function AdminDashboard() {
                     {pago.residenteId?.nombre}
                   </p>
                   <p className="text-xs text-gray-500">
-                    {pago.cuotaId?.descripcion} • Apto{" "}
+                    {pago.cuotaId?.descripcion} · Apto{" "}
                     {pago.apartamentoId?.numero}
                   </p>
                 </div>
                 <div className="text-right">
                   <p className="text-sm font-bold text-gray-900">
-                    RD${pago.monto?.toLocaleString()}
+                    RD$ {pago.monto?.toLocaleString()}
                   </p>
                   <span className="text-xs bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-full font-medium">
                     Pendiente

@@ -86,7 +86,7 @@ export default function Incidents() {
                     Reportado por:{" "}
                     {inc.anonimo ? "🕵️ Anónimo" : inc.reportadoPor?.nombre}
                   </p>
-                  {inc.apartamentoId && (
+                  {!inc.anonimo && inc.apartamentoId && (
                     <p className="text-xs text-gray-400">
                       Edif.{" "}
                       {inc.apartamentoId?.edificioId?.nombre ||

@@ -18,9 +18,8 @@ export default function ResidentIncidents() {
 
   const cargar = async () => {
     try {
-      const { data } = await api.get("/incidencias");
-      const mias = data.filter((i) => i.reportadoPor?.nombre !== "Anónimo");
-      setEnviadas(mias);
+      const { data } = await api.get("/incidencias/mis-incidencias");
+      setEnviadas(data);
     } catch {
       toast.error("Error al cargar");
     }

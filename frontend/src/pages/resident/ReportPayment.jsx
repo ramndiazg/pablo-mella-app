@@ -11,10 +11,40 @@ export default function ReportPayment() {
   const [enviando, setEnviando] = useState(false);
 
   useEffect(() => {
-    api
-      .get("/cuotas")
-      .then(({ data }) => setCuotas(data))
-      .catch(() => toast.error("Error al cargar cuotas"));
+    const cargar = async () => {
+      try {
+        const [cuotasRes, pagosRes] = await Promise.allSettled([
+          api.get("/cuotas"),
+          api.get("/pagos/mispagos"),
+        ]);
+
+        if (cuotasRes.status !== "fulfilled") {
+          toast.error("Error al cargar cuotas");
+          return;
+        }
+
+        const todasCuotas = cuotasRes.value.data;
+        const misPagos =
+          pagosRes.status === "fulfilled"
+            ? pagosRes.value.data.pagos || []
+            : [];
+
+        // Filtrar cuotas que ya tienen pago aprobado o pendiente
+        const cuotasPendientes = todasCuotas.filter((cuota) => {
+          const pago = misPagos.find(
+            (p) =>
+              p.cuotaId?._id === cuota._id &&
+              (p.estado === "aprobado" || p.estado === "pendiente"),
+          );
+          return !pago;
+        });
+
+        setCuotas(cuotasPendientes);
+      } catch {
+        toast.error("Error al cargar cuotas");
+      }
+    };
+    cargar();
   }, []);
 
   const handleCuotaChange = (e) => {
