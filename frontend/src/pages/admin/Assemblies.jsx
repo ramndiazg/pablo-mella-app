@@ -45,7 +45,16 @@ export default function AdminAssemblies() {
   const verDetalle = async (id) => {
     try {
       const { data } = await api.get(`/asambleas/${id}`);
-      setDetalle(data);
+      const res = {};
+      for (const v of data.votaciones || []) {
+        try {
+          const { data: r } = await api.get(`/votaciones/${v._id}/resultados`);
+          res[v._id] = r;
+        } catch {
+          // sin votos aún
+        }
+      }
+      setDetalle({ ...data, resultadosVotaciones: res });
     } catch {
       toast.error("Error al cargar detalle");
     }
@@ -269,40 +278,76 @@ export default function AdminAssemblies() {
               {detalle.votaciones?.length === 0 && (
                 <p className="text-sm text-gray-400">Sin votaciones aún</p>
               )}
-              {detalle.votaciones?.map((v) => (
-                <div
-                  key={v._id}
-                  className="border border-gray-100 rounded-lg p-3"
-                >
-                  <div className="flex items-start justify-between gap-2">
-                    <div>
-                      <p className="text-sm font-medium text-gray-900">
-                        {v.pregunta}
-                      </p>
-                      <p className="text-xs text-gray-400 mt-0.5">
-                        Opciones: {v.opciones?.join(", ")}
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-2 shrink-0">
-                      <span
-                        className={`text-xs px-2 py-0.5 rounded-full font-medium ${v.abierta ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-600"}`}
-                      >
-                        {v.abierta ? "Abierta" : "Cerrada"}
-                      </span>
-                      {v.abierta && (
-                        <button
-                          onClick={() =>
-                            cerrarVotacion(v._id, detalle.asamblea._id)
-                          }
-                          className="text-xs text-red-600 hover:underline"
+              {detalle.votaciones?.map((v) => {
+                const r = detalle.resultadosVotaciones?.[v._id];
+                return (
+                  <div
+                    key={v._id}
+                    className="border border-gray-100 rounded-lg p-3 space-y-2"
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <div>
+                        <p className="text-sm font-medium text-gray-900">
+                          {v.pregunta}
+                        </p>
+                        <p className="text-xs text-gray-400 mt-0.5">
+                          Opciones: {v.opciones?.join(", ")}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-2 shrink-0">
+                        <span
+                          className={`text-xs px-2 py-0.5 rounded-full font-medium ${v.abierta ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-600"}`}
                         >
-                          Cerrar
-                        </button>
-                      )}
+                          {v.abierta ? "Abierta" : "Cerrada"}
+                        </span>
+                        {v.abierta && (
+                          <button
+                            onClick={() =>
+                              cerrarVotacion(v._id, detalle.asamblea._id)
+                            }
+                            className="text-xs text-red-600 hover:underline"
+                          >
+                            Cerrar
+                          </button>
+                        )}
+                      </div>
                     </div>
+
+                    {r && r.totalVotos > 0 && (
+                      <div className="space-y-1.5">
+                        <p className="text-xs text-gray-500">
+                          Resultados · {r.totalVotos} votos
+                        </p>
+                        {Object.entries(r.resultados || {}).map(
+                          ([opcion, votos]) => (
+                            <div key={opcion}>
+                              <div className="flex justify-between text-xs text-gray-700 mb-0.5">
+                                <span>{opcion}</span>
+                                <span>{votos} votos</span>
+                              </div>
+                              <div className="w-full bg-gray-100 rounded-full h-1.5">
+                                <div
+                                  className="bg-blue-500 h-1.5 rounded-full"
+                                  style={{
+                                    width:
+                                      r.totalVotos > 0
+                                        ? `${(votos / r.totalVotos) * 100}%`
+                                        : "0%",
+                                  }}
+                                />
+                              </div>
+                            </div>
+                          ),
+                        )}
+                      </div>
+                    )}
+
+                    {r && r.totalVotos === 0 && (
+                      <p className="text-xs text-gray-400">Sin votos aún</p>
+                    )}
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>

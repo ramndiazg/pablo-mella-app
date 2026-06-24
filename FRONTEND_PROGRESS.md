@@ -94,18 +94,27 @@
 
 ### ✅ Módulo 10 — Reservas (COMPLETO)
 
-- [x] `src/pages/admin/Reservations.jsx — aprobar/rechazar con motivo obligatorio`
-- [x] `src/pages/resident/Reservations.jsx — calendario + crear + cancelar`
-- [x] `Rutas conectadas en App.jsx (sin Layout duplicado)`
-- [x] `Regla de negocio validada: solo una reserva activa por apartamento`
-- [x] `Error 403 por morosidad manejado`
+- [x] `src/pages/admin/Reservations.jsx` — aprobar/rechazar con motivo obligatorio
+- [x] `src/pages/resident/Reservations.jsx` — calendario + crear + cancelar
+- [x] Rutas conectadas en App.jsx (sin Layout duplicado)
+- [x] Regla de negocio validada: solo una reserva activa por apartamento
+- [x] Error 403 por morosidad manejado
 
-### 🔲 Módulo 11 — Asambleas y Documentos (PENDIENTE)
+### ✅ Módulo 11 — Asambleas y Documentos (COMPLETO)
 
-- [ ] `src/pages/admin/Assemblies.jsx`
-- [ ] `src/pages/resident/Assemblies.jsx` — con votaciones
-- [ ] `src/pages/admin/Documents.jsx`
-- [ ] `src/pages/resident/Documents.jsx`
+- [x] `src/pages/admin/Assemblies.jsx` — crear asamblea, votaciones, ver resultados, subir acta
+- [x] `src/pages/resident/Assemblies.jsx` — ver asambleas, votar, ver resultados con barra
+- [x] `src/pages/admin/Documents.jsx` — subir y eliminar documentos
+- [x] `src/pages/resident/Documents.jsx` — ver y descargar documentos
+- [x] Rutas conectadas en App.jsx
+- [x] Nota: agenda es String en el modelo, no array — se envía y muestra como texto plano
+- [x] Nota: acta se guarda como actaUrl en el backend, no como acta
+
+### Notas adicionales
+
+- Cloudinary requiere resource_type: "raw" para PDFs — corregido en upload.js
+- Documentos: campo url (no archivo), subidoPor (no creadoPor)
+- Solo se aceptan PDFs en documentos (Cloudinary free no soporta .doc/.docx)
 
 ### 🔲 Módulo 12 — Ajustes finales (PENDIENTE)
 

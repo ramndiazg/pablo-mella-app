@@ -110,11 +110,11 @@ export default function ResidentDocuments() {
                     </p>
                   )}
                   <p className="text-xs text-gray-400 mt-1">
-                    📅 {formatFecha(d.creadoEn || d.createdAt)}
+                    📅 {formatFecha(d.createdAt)}
                   </p>
                 </div>
                 <a
-                  href={d.archivo}
+                  href={d.url}
                   target="_blank"
                   rel="noreferrer"
                   className="bg-blue-600 text-white px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors shrink-0"

@@ -10,10 +10,13 @@ cloudinary.config({
 
 const storage = new CloudinaryStorage({
   cloudinary,
-  params: {
-    folder: "pablo-mella",
-    allowed_formats: ["jpg", "jpeg", "png", "pdf"],
-    transformation: [{ quality: "auto", fetch_format: "auto" }],
+  params: (req, file) => {
+    const isPdf = file.mimetype === "application/pdf";
+    return {
+      folder: "pablo-mella",
+      allowed_formats: ["jpg", "jpeg", "png", "pdf"],
+      resource_type: isPdf ? "raw" : "image",
+    };
   },
 });
 

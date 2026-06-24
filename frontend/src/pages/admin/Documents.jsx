@@ -75,6 +75,7 @@ export default function AdminDocuments() {
       });
       cargar();
     } catch (err) {
+      console.log("Error detalle:", err.response?.data);
       toast.error(err.response?.data?.mensaje || "Error al subir documento");
     } finally {
       setSubmitting(false);
@@ -171,13 +172,13 @@ export default function AdminDocuments() {
                     </p>
                   )}
                   <p className="text-xs text-gray-400 mt-1">
-                    📅 {formatFecha(d.creadoEn || d.createdAt)} ·{" "}
-                    {d.creadoPor?.nombre || "Admin"}
+                    📅 {formatFecha(d.createdAt)} ·{" "}
+                    {d.subidoPor?.nombre || "Admin"}
                   </p>
                 </div>
                 <div className="flex gap-2 shrink-0">
                   <a
-                    href={d.archivo}
+                    href={d.url}
                     target="_blank"
                     rel="noreferrer"
                     className="bg-white text-gray-700 px-3 py-1.5 rounded-lg border border-gray-300 hover:bg-gray-50 text-sm transition-colors"
@@ -250,7 +251,7 @@ export default function AdminDocuments() {
                 </label>
                 <input
                   type="file"
-                  accept=".pdf,.doc,.docx"
+                  accept=".pdf"
                   onChange={(e) =>
                     setForm({ ...form, archivo: e.target.files[0] })
                   }
