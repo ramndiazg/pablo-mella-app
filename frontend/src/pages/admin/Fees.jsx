@@ -122,7 +122,10 @@ export default function Fees() {
       {showModal && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl w-full max-w-md p-6 shadow-xl">
-            <h2 className="text-lg font-bold mb-4">Nueva cuota</h2>
+            <h2 className="text-lg font-bold mb-2">Nueva cuota</h2>
+            <p className="text-xs text-amber-600 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 mb-4">
+              ⚠️ Verifica el monto antes de crear — no se puede editar después.
+            </p>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">

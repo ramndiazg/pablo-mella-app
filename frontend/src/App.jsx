@@ -10,6 +10,7 @@ import AdminAssemblies from "./pages/admin/Assemblies";
 import ResidentAssemblies from "./pages/resident/Assemblies";
 import AdminDocuments from "./pages/admin/Documents";
 import ResidentDocuments from "./pages/resident/Documents";
+import MyAccount from "./pages/resident/MyAccount";
 
 import Login from "./pages/Login";
 
@@ -24,6 +25,8 @@ import Buildings from "./pages/admin/Buildings";
 import Residents from "./pages/admin/Residents";
 import AdminReservations from "./pages/admin/Reservations";
 import ResidentReservations from "./pages/resident/Reservations";
+import AdminAnnouncements from "./pages/admin/Announcements";
+import ResidentAnnouncements from "./pages/resident/Announcements";
 
 import ResidentDashboard from "./pages/resident/Dashboard";
 import ReportPayment from "./pages/resident/ReportPayment";
@@ -58,12 +61,28 @@ function ResidenteRoute({ children }) {
 export default function App() {
   return (
     <BrowserRouter>
-      <Toaster position="top-center" containerStyle={{ zIndex: 9999 }} />
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          style: {
+            zIndex: 99999,
+          },
+        }}
+        containerStyle={{ zIndex: 99999 }}
+      />
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<RutaRaiz />} />
 
         {/* Admin */}
+        <Route
+          path="/admin/anuncios"
+          element={
+            <AdminRoute>
+              <AdminAnnouncements />
+            </AdminRoute>
+          }
+        />
         <Route
           path="/admin/dashboard"
           element={
@@ -162,6 +181,22 @@ export default function App() {
         />
 
         {/* Residente */}
+        <Route
+          path="/residente/anuncios"
+          element={
+            <ResidenteRoute>
+              <ResidentAnnouncements />
+            </ResidenteRoute>
+          }
+        />
+        <Route
+          path="/residente/mi-cuenta"
+          element={
+            <ResidenteRoute>
+              <MyAccount />
+            </ResidenteRoute>
+          }
+        />
         <Route
           path="/residente/dashboard"
           element={
