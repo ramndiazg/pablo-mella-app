@@ -116,15 +116,16 @@
 - Documentos: campo url (no archivo), subidoPor (no creadoPor)
 - Solo se aceptan PDFs en documentos (Cloudinary free no soporta .doc/.docx)
 
-### ✅ Módulo 12 — Ajustes finales (EN PROGRESO)
+### ✅ Módulo 12 — Ajustes finales (COMPLETO)
 
 - [x] `src/pages/admin/Announcements.jsx`
 - [x] `src/pages/resident/Announcements.jsx`
 - [x] `src/pages/resident/MyAccount.jsx` — historial de pagos + cambio de contraseña
-- [x] Fix: toast visible con modal abierto (Toaster duplicado en Login.jsx)
+- [x] `src/pages/admin/MyAccount.jsx` — info usuario + cambio de contraseña
+- [x] Rutas conectadas en App.jsx
+- [x] Link "Mi Cuenta" agregado en Sidebar admin
+- [x] Fix: toast visible con modal abierto
 - [x] Aviso ⚠️ en Fees.jsx sobre el monto
-- [x] src/pages/admin/MyAccount.jsx — cambio de contraseña admin
-- [x] Rutas de anuncios y mi-cuenta conectadas en App.jsx ✅
 
 ### 🔴 Módulo 13 — Reestructuración de Finanzas (PENDIENTE — PRIORITARIO)
 

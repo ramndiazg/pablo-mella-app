@@ -11,6 +11,7 @@ import ResidentAssemblies from "./pages/resident/Assemblies";
 import AdminDocuments from "./pages/admin/Documents";
 import ResidentDocuments from "./pages/resident/Documents";
 import MyAccount from "./pages/resident/MyAccount";
+import Morosidad from "./pages/admin/Morosidad";
 
 import Login from "./pages/Login";
 
@@ -76,6 +77,14 @@ export default function App() {
         <Route path="/" element={<RutaRaiz />} />
 
         {/* Admin */}
+        <Route
+          path="/admin/morosidad"
+          element={
+            <AdminRoute>
+              <Morosidad />
+            </AdminRoute>
+          }
+        />
         <Route
           path="/admin/mi-cuenta"
           element={

@@ -6,7 +6,7 @@ import { useAuth } from "../../context/AuthContext";
 export default function ReportPayment() {
   const { usuario } = useAuth();
   const [cuotas, setCuotas] = useState([]);
-  const [form, setForm] = useState({ cuotaId: "", monto: "" });
+  const [cuotaSeleccionada, setCuotaSeleccionada] = useState(null);
   const [comprobante, setComprobante] = useState(null);
   const [enviando, setEnviando] = useState(false);
 
@@ -17,10 +17,15 @@ export default function ReportPayment() {
       .catch(() => toast.error("Error al cargar cuotas"));
   }, []);
 
+  const handleCuotaChange = (e) => {
+    const id = e.target.value;
+    const cuota = cuotas.find((c) => c._id === id);
+    setCuotaSeleccionada(cuota || null);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.cuotaId) return toast.error("Selecciona una cuota");
-    if (!form.monto) return toast.error("Ingresa el monto");
+    if (!cuotaSeleccionada) return toast.error("Selecciona una cuota");
     if (!comprobante) return toast.error("El comprobante es obligatorio");
     if (!usuario?.apartamentoId)
       return toast.error("No tienes apartamento asignado");
@@ -28,12 +33,12 @@ export default function ReportPayment() {
     setEnviando(true);
     try {
       const formData = new FormData();
-      formData.append("cuotaId", form.cuotaId);
+      formData.append("cuotaId", cuotaSeleccionada._id);
       formData.append(
         "apartamentoId",
         usuario.apartamentoId._id || usuario.apartamentoId,
       );
-      formData.append("monto", form.monto);
+      formData.append("monto", cuotaSeleccionada.monto);
       formData.append("comprobante", comprobante);
 
       await api.post("/pagos", formData, {
@@ -42,7 +47,7 @@ export default function ReportPayment() {
       toast.success(
         "Pago reportado correctamente. El admin lo verificará pronto.",
       );
-      setForm({ cuotaId: "", monto: "" });
+      setCuotaSeleccionada(null);
       setComprobante(null);
       document.getElementById("comprobante-input").value = "";
     } catch (err) {
@@ -51,6 +56,21 @@ export default function ReportPayment() {
       setEnviando(false);
     }
   };
+
+  const MESES = [
+    "Enero",
+    "Febrero",
+    "Marzo",
+    "Abril",
+    "Mayo",
+    "Junio",
+    "Julio",
+    "Agosto",
+    "Septiembre",
+    "Octubre",
+    "Noviembre",
+    "Diciembre",
+  ];
 
   return (
     <div className="space-y-4 max-w-lg">
@@ -80,38 +100,70 @@ export default function ReportPayment() {
             </label>
             <select
               className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value={form.cuotaId}
-              onChange={(e) =>
-                setForm((f) => ({ ...f, cuotaId: e.target.value }))
-              }
+              value={cuotaSeleccionada?._id || ""}
+              onChange={handleCuotaChange}
             >
               <option value="">Seleccionar cuota...</option>
               {cuotas.map((c) => (
                 <option key={c._id} value={c._id}>
-                  {c.descripcion} — RD${c.monto?.toLocaleString()}
+                  {c.tipo === "mensual"
+                    ? `${MESES[c.mes - 1]} ${c.anio} — ${c.descripcion}`
+                    : c.descripcion}
                 </option>
               ))}
             </select>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Monto pagado (RD$)
-            </label>
-            <input
-              type="number"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value={form.monto}
-              onChange={(e) =>
-                setForm((f) => ({ ...f, monto: e.target.value }))
-              }
-              placeholder="2500"
-            />
-          </div>
+          {/* Detalle de la cuota seleccionada */}
+          {cuotaSeleccionada && (
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 space-y-2">
+              <p className="text-sm font-medium text-gray-700">
+                Detalle de la cuota:
+              </p>
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-500">Descripción</span>
+                <span className="text-gray-900 font-medium">
+                  {cuotaSeleccionada.descripcion}
+                </span>
+              </div>
+              {cuotaSeleccionada.mes && (
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-500">Período</span>
+                  <span className="text-gray-900 font-medium">
+                    {MESES[cuotaSeleccionada.mes - 1]} {cuotaSeleccionada.anio}
+                  </span>
+                </div>
+              )}
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-500">Tipo</span>
+                <span className="text-gray-900 font-medium capitalize">
+                  {cuotaSeleccionada.tipo}
+                </span>
+              </div>
+              {cuotaSeleccionada.fechaLimite && (
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-500">Fecha límite</span>
+                  <span className="text-red-600 font-medium">
+                    {new Date(cuotaSeleccionada.fechaLimite).toLocaleDateString(
+                      "es-DO",
+                    )}
+                  </span>
+                </div>
+              )}
+              <div className="flex justify-between text-sm border-t border-gray-200 pt-2 mt-2">
+                <span className="text-gray-700 font-semibold">
+                  Monto a pagar
+                </span>
+                <span className="text-blue-600 font-bold text-lg">
+                  RD$ {cuotaSeleccionada.monto?.toLocaleString()}
+                </span>
+              </div>
+            </div>
+          )}
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Comprobante de pago
+              Comprobante de pago <span className="text-red-500">*</span>
             </label>
             <input
               id="comprobante-input"
@@ -125,12 +177,19 @@ export default function ReportPayment() {
             </p>
           </div>
 
+          <p className="text-xs text-amber-600 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+            ⚠️ El monto es fijo según la cuota seleccionada y no puede
+            modificarse.
+          </p>
+
           <button
             type="submit"
-            disabled={enviando}
+            disabled={enviando || !cuotaSeleccionada}
             className="w-full bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
           >
-            {enviando ? "Enviando..." : "Reportar pago"}
+            {enviando
+              ? "Enviando..."
+              : `Reportar pago — RD$ ${cuotaSeleccionada?.monto?.toLocaleString() || "0"}`}
           </button>
         </form>
       </div>

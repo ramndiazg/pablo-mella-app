@@ -5,6 +5,21 @@ import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { useAuth } from "../../context/AuthContext";
 
+const MESES = [
+  "Enero",
+  "Febrero",
+  "Marzo",
+  "Abril",
+  "Mayo",
+  "Junio",
+  "Julio",
+  "Agosto",
+  "Septiembre",
+  "Octubre",
+  "Noviembre",
+  "Diciembre",
+];
+
 const badgeClass = {
   pendiente: "bg-yellow-100 text-yellow-700",
   aprobado: "bg-green-100 text-green-700",
@@ -13,7 +28,8 @@ const badgeClass = {
 
 export default function MyAccount() {
   const { usuario } = useAuth();
-  const [datos, setDatos] = useState(null);
+  const [pagos, setPagos] = useState([]);
+  const [moroso, setMoroso] = useState(null);
   const [loading, setLoading] = useState(true);
   const [modalPassword, setModalPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -27,8 +43,15 @@ export default function MyAccount() {
   const cargar = async () => {
     try {
       setLoading(true);
-      const { data } = await api.get("/pagos/mispagos");
-      setDatos(data);
+      const apartamentoId =
+        usuario?.apartamentoId?._id || usuario?.apartamentoId;
+      const [pagosRes, morosoRes] = await Promise.allSettled([
+        api.get("/pagos/mispagos"),
+        api.get(`/pagos/moroso/${apartamentoId}`),
+      ]);
+      if (pagosRes.status === "fulfilled")
+        setPagos(pagosRes.value.data.pagos || []);
+      if (morosoRes.status === "fulfilled") setMoroso(morosoRes.value.data);
     } catch {
       toast.error("Error al cargar datos");
     } finally {
@@ -78,6 +101,8 @@ export default function MyAccount() {
     }
   };
 
+  const totalDeuda = moroso?.detalle?.reduce((sum, d) => sum + d.monto, 0) || 0;
+
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
@@ -107,6 +132,9 @@ export default function MyAccount() {
             {usuario?.telefono && (
               <p className="text-sm text-gray-500">📞 {usuario.telefono}</p>
             )}
+            <p className="text-sm text-gray-500 mt-0.5">
+              🏠 Apto {usuario?.apartamentoId?.numero || "No asignado"}
+            </p>
           </div>
         </div>
       </div>
@@ -118,33 +146,56 @@ export default function MyAccount() {
       ) : (
         <>
           {/* Estado de cuenta */}
-          {datos?.resumen && (
+          {moroso && (
             <div
               className={`rounded-xl border shadow-sm p-4 ${
-                datos.resumen.esMoroso
+                moroso.esMoroso
                   ? "bg-red-50 border-red-200"
                   : "bg-green-50 border-green-200"
               }`}
             >
-              <div className="flex items-center gap-2">
-                <span className="text-2xl">
-                  {datos.resumen.esMoroso ? "🔴" : "✅"}
-                </span>
-                <div>
-                  <p className="font-semibold text-gray-900">
-                    {datos.resumen.esMoroso
-                      ? "Cuenta en mora"
-                      : "Cuenta al día"}
-                  </p>
-                  {datos.resumen.esMoroso && (
+              <p
+                className={`font-bold ${moroso.esMoroso ? "text-red-700" : "text-green-700"}`}
+              >
+                {moroso.esMoroso
+                  ? "🔴 Cuenta con deuda pendiente"
+                  : "✅ Cuenta al día"}
+              </p>
+
+              {moroso.esMoroso && (
+                <div className="mt-3 space-y-2">
+                  {moroso.detalle?.length > 0 && (
+                    <div className="bg-white/60 rounded-lg p-3 space-y-1.5">
+                      <p className="text-xs font-semibold text-red-700 uppercase tracking-wide">
+                        Meses pendientes:
+                      </p>
+                      {moroso.detalle.map((d, i) => (
+                        <div key={i} className="flex justify-between text-sm">
+                          <span className="text-red-700">
+                            📅 {MESES[d.mes - 1]} {d.anio} — {d.descripcion}
+                          </span>
+                          <span className="font-semibold text-red-700">
+                            RD$ {d.monto?.toLocaleString()}
+                          </span>
+                        </div>
+                      ))}
+                      <div className="flex justify-between text-sm border-t border-red-200 pt-1.5 mt-1.5">
+                        <span className="font-bold text-red-800">
+                          Total adeudado
+                        </span>
+                        <span className="font-bold text-red-800">
+                          RD$ {totalDeuda.toLocaleString()}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                  {moroso.multasPendientes > 0 && (
                     <p className="text-sm text-red-600">
-                      {datos.resumen.mesesDeuda} mes(es) de deuda
-                      {datos.resumen.multasPendientes > 0 &&
-                        ` · ${datos.resumen.multasPendientes} multa(s) pendiente(s)`}
+                      🚫 {moroso.multasPendientes} multa(s) pendiente(s)
                     </p>
                   )}
                 </div>
-              </div>
+              )}
             </div>
           )}
 
@@ -153,14 +204,14 @@ export default function MyAccount() {
             <h2 className="font-semibold text-gray-900 mb-3">
               Historial de pagos
             </h2>
-            {datos?.pagos?.length === 0 ? (
+            {pagos.length === 0 ? (
               <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-12 text-center text-gray-400">
                 <p className="text-3xl mb-2">🧾</p>
                 <p className="text-sm">No tienes pagos registrados</p>
               </div>
             ) : (
               <div className="space-y-3">
-                {datos?.pagos?.map((p) => (
+                {pagos.map((p) => (
                   <div
                     key={p._id}
                     className="bg-white rounded-xl border border-gray-100 shadow-sm p-4"
@@ -169,10 +220,8 @@ export default function MyAccount() {
                       <div>
                         <p className="font-medium text-gray-900">
                           {p.cuotaId?.tipo === "mensual"
-                            ? "Cuota mensual"
-                            : "Cuota extraordinaria"}
-                          {p.cuotaId?.mes &&
-                            ` · ${p.cuotaId.mes}/${p.cuotaId.anio}`}
+                            ? `Cuota ${MESES[(p.cuotaId.mes || 1) - 1]} ${p.cuotaId.anio}`
+                            : p.cuotaId?.descripcion || "Cuota extraordinaria"}
                         </p>
                         <p className="text-sm text-gray-500 mt-0.5">
                           📅 {formatFecha(p.createdAt)} · RD${" "}
@@ -180,11 +229,11 @@ export default function MyAccount() {
                         </p>
                         {p.motivoRechazo && (
                           <p className="text-sm text-red-600 mt-0.5">
-                            Motivo: {p.motivoRechazo}
+                            Motivo rechazo: {p.motivoRechazo}
                           </p>
                         )}
                       </div>
-                      <div className="flex items-center gap-2 shrink-0">
+                      <div className="flex items-center gap-2 shrink-0 flex-col items-end">
                         <span
                           className={`text-xs px-2 py-0.5 rounded-full font-medium ${badgeClass[p.estado]}`}
                         >
