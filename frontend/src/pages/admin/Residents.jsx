@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import api from "../../api/axios";
 import toast from "react-hot-toast";
 import CascadeSelect from "../../components/CascadeSelect";
@@ -15,9 +15,44 @@ const VACIO = {
 };
 
 export default function Residents() {
+  const [residentes, setResidentes] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [form, setForm] = useState(VACIO);
   const [enviando, setEnviando] = useState(false);
+  const [busqueda, setBusqueda] = useState("");
+
+  const cargar = async () => {
+    try {
+      setLoading(true);
+      const { data } = await api.get("/auth/perfil");
+      // El backend no tiene endpoint de listar usuarios,
+      // usamos los apartamentos para obtener residentes
+      const { data: edifs } = await api.get("/edificios");
+      const todos = [];
+      for (const edif of edifs) {
+        const { data: detalle } = await api.get(`/edificios/${edif._id}`);
+        for (const apt of detalle.apartamentos || []) {
+          if (apt.residenteActualId) {
+            todos.push({
+              ...apt.residenteActualId,
+              apartamento: apt,
+              edificio: edif,
+            });
+          }
+        }
+      }
+      setResidentes(todos);
+    } catch {
+      toast.error("Error al cargar residentes");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    cargar();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,12 +74,19 @@ export default function Residents() {
       toast.success("Residente creado exitosamente");
       setShowModal(false);
       setForm(VACIO);
+      cargar();
     } catch (err) {
       toast.error(err.response?.data?.mensaje || "Error al crear residente");
     } finally {
       setEnviando(false);
     }
   };
+
+  const filtrados = residentes.filter(
+    (r) =>
+      r.nombre?.toLowerCase().includes(busqueda.toLowerCase()) ||
+      r.email?.toLowerCase().includes(busqueda.toLowerCase()),
+  );
 
   return (
     <div className="space-y-4">
@@ -63,13 +105,77 @@ export default function Residents() {
         </button>
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-8 text-center text-gray-400">
-        <p className="text-3xl mb-2">👥</p>
-        <p className="text-sm font-medium">Gestión de residentes</p>
-        <p className="text-xs mt-1">
-          Para ver los residentes por apartamento ve a la sección de Edificios
-        </p>
-      </div>
+      {/* Búsqueda */}
+      <input
+        type="text"
+        placeholder="Buscar por nombre o email..."
+        value={busqueda}
+        onChange={(e) => setBusqueda(e.target.value)}
+        className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+
+      {loading ? (
+        <div className="flex justify-center py-12">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+        </div>
+      ) : filtrados.length === 0 ? (
+        <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-12 text-center text-gray-400">
+          <p className="text-3xl mb-2">👥</p>
+          <p className="text-sm">
+            {busqueda
+              ? "No se encontraron residentes"
+              : "No hay residentes registrados"}
+          </p>
+        </div>
+      ) : (
+        <div className="space-y-3">
+          {filtrados.map((r, i) => (
+            <div
+              key={i}
+              className="bg-white rounded-xl border border-gray-100 shadow-sm p-4"
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-lg font-bold text-blue-600 shrink-0">
+                    {r.nombre?.charAt(0).toUpperCase()}
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <p className="font-semibold text-gray-900">{r.nombre}</p>
+                      {r.esDirectiva && (
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700 font-medium">
+                          {r.cargoDirectiva || "Directiva"}
+                        </span>
+                      )}
+                      <span
+                        className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+                          r.rol === "admin"
+                            ? "bg-purple-100 text-purple-700"
+                            : "bg-blue-100 text-blue-700"
+                        }`}
+                      >
+                        {r.rol}
+                      </span>
+                    </div>
+                    <p className="text-sm text-gray-500">{r.email}</p>
+                    {r.telefono && (
+                      <p className="text-sm text-gray-400">📞 {r.telefono}</p>
+                    )}
+                  </div>
+                </div>
+                <div className="text-right shrink-0">
+                  <p className="text-sm font-medium text-gray-700">
+                    Apto {r.apartamento?.numero}
+                  </p>
+                  <p className="text-xs text-gray-400">
+                    {r.edificio?.nombre || `Edif. ${r.edificio?.numero}`}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
 
       {showModal && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">

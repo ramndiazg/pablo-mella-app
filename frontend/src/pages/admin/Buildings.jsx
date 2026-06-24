@@ -11,6 +11,10 @@ export default function Buildings() {
   const [enviando, setEnviando] = useState(false);
   const [expandido, setExpandido] = useState(null);
   const [apartamentos, setApartamentos] = useState({});
+  const [modalAsignar, setModalAsignar] = useState(null);
+  const [residentes, setResidentes] = useState([]);
+  const [residenteId, setResidenteId] = useState("");
+  const [asignando, setAsignando] = useState(false);
 
   const cargar = async () => {
     try {
@@ -37,6 +41,51 @@ export default function Buildings() {
       setApartamentos((a) => ({ ...a, [id]: data.apartamentos }));
     } catch {
       toast.error("Error al cargar apartamentos");
+    }
+  };
+
+  const recargarApartamentos = async (edificioId) => {
+    try {
+      const { data } = await api.get("/edificios/" + edificioId);
+      setApartamentos((a) => ({ ...a, [edificioId]: data.apartamentos }));
+    } catch {
+      toast.error("Error al recargar apartamentos");
+    }
+  };
+
+  const abrirModalAsignar = async (apt, edificioId) => {
+    setModalAsignar({ apt, edificioId });
+    setResidenteId("");
+    try {
+      const { data } = await api.get("/auth/usuarios");
+      // Solo residentes sin apartamento asignado
+      const sinApartamento = data.filter(
+        (u) => !u.apartamentoId && u.rol === "residente",
+      );
+      setResidentes(sinApartamento);
+    } catch {
+      toast.error("Error al cargar residentes");
+    }
+  };
+
+  const asignarResidente = async () => {
+    if (!residenteId) {
+      toast.error("Selecciona un residente");
+      return;
+    }
+    try {
+      setAsignando(true);
+      await api.put(`/apartamentos/${modalAsignar.apt._id}/asignar-residente`, {
+        residenteId,
+      });
+      toast.success("Residente asignado correctamente");
+      setModalAsignar(null);
+      setResidenteId("");
+      recargarApartamentos(modalAsignar.edificioId);
+    } catch (err) {
+      toast.error(err.response?.data?.mensaje || "Error al asignar residente");
+    } finally {
+      setAsignando(false);
     }
   };
 
@@ -93,7 +142,7 @@ export default function Buildings() {
               <div>
                 <p className="font-semibold text-gray-900">{e.nombre}</p>
                 <p className="text-sm text-gray-500">
-                  Edificio {e.numero} • {e.aptasPorPiso} aptos/piso •{" "}
+                  Edificio {e.numero} · {e.aptasPorPiso} aptos/piso ·{" "}
                   {e.totalPisos} pisos
                 </p>
               </div>
@@ -112,23 +161,37 @@ export default function Buildings() {
                 <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
                   Apartamentos
                 </p>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-2 gap-2">
                   {apartamentos[e._id].map((a) => (
                     <div
                       key={a._id}
-                      className={
-                        "rounded-lg p-2 text-center text-sm " +
-                        (a.residenteActualId
-                          ? "bg-blue-50 text-blue-700"
-                          : "bg-gray-50 text-gray-400")
-                      }
+                      className={`rounded-lg p-3 text-sm flex items-center justify-between ${
+                        a.residenteActualId ? "bg-blue-50" : "bg-gray-50"
+                      }`}
                     >
-                      <p className="font-medium">Apto {a.numero}</p>
-                      <p className="text-xs truncate">
-                        {a.residenteActualId
-                          ? a.residenteActualId.nombre.split(" ")[0]
-                          : "Disponible"}
-                      </p>
+                      <div>
+                        <p
+                          className={`font-medium ${a.residenteActualId ? "text-blue-700" : "text-gray-500"}`}
+                        >
+                          Apto {a.numero}
+                        </p>
+                        <p className="text-xs text-gray-400 truncate">
+                          {a.residenteActualId
+                            ? a.residenteActualId.nombre
+                            : "Disponible"}
+                        </p>
+                      </div>
+                      {!a.residenteActualId && (
+                        <button
+                          onClick={(ev) => {
+                            ev.stopPropagation();
+                            abrirModalAsignar(a, e._id);
+                          }}
+                          className="text-xs bg-blue-600 text-white px-2 py-1 rounded-lg hover:bg-blue-700 transition-colors shrink-0"
+                        >
+                          Asignar
+                        </button>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -144,6 +207,65 @@ export default function Buildings() {
         )}
       </div>
 
+      {/* Modal asignar residente */}
+      {modalAsignar && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl w-full max-w-md p-6 shadow-xl">
+            <h2 className="text-lg font-bold text-gray-900 mb-1">
+              Asignar Residente
+            </h2>
+            <p className="text-sm text-gray-500 mb-4">
+              Apto {modalAsignar.apt.numero}
+            </p>
+
+            <p className="text-sm text-amber-600 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 mb-4">
+              ⚠️ Para asignar un residente a este apartamento, créalo primero
+              desde la sección Residentes con este apartamento seleccionado. El
+              sistema lo asignará automáticamente.
+            </p>
+
+            {residentes.length > 0 && (
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  O reasigna un residente existente:
+                </label>
+                <select
+                  value={residenteId}
+                  onChange={(e) => setResidenteId(e.target.value)}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="">Seleccionar residente...</option>
+                  {residentes.map((r, i) => (
+                    <option key={i} value={r._id}>
+                      {r.nombre} — {r.email}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            <div className="flex gap-3 justify-end">
+              <button
+                onClick={() => setModalAsignar(null)}
+                className="bg-white text-gray-700 px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-50 text-sm transition-colors"
+              >
+                Cerrar
+              </button>
+              {residenteId && (
+                <button
+                  onClick={asignarResidente}
+                  disabled={asignando}
+                  className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
+                >
+                  {asignando ? "Asignando..." : "Asignar"}
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal nuevo edificio */}
       {showModal && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl w-full max-w-md p-6 shadow-xl">

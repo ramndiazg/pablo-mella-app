@@ -5,6 +5,7 @@ const {
   register,
   getPerfil,
   cambiarPassword,
+  getUsuarios,
 } = require("../controllers/authController");
 const { protect, adminOnly } = require("../middleware/auth");
 
@@ -13,6 +14,7 @@ router.post("/login", login);
 
 // Rutas privadas (solo admin puede registrar usuarios)
 router.post("/register", protect, adminOnly, register);
+router.get("/usuarios", protect, adminOnly, getUsuarios);
 
 // Rutas privadas (cualquier usuario autenticado)
 router.get("/perfil", protect, getPerfil);

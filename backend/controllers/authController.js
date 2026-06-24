@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const Apartment = require("../models/Apartment");
 
 // Generar JWT
 const generarToken = (id) => {
@@ -100,6 +101,13 @@ const register = async (req, res) => {
       cargoDirectiva: cargoDirectiva || null,
     });
 
+    // Si se asignó apartamento, actualizar residenteActualId en el apartamento
+    if (apartamentoId) {
+      await Apartment.findByIdAndUpdate(apartamentoId, {
+        residenteActualId: user._id,
+      });
+    }
+
     res.status(201).json({
       _id: user._id,
       nombre: user.nombre,
@@ -169,4 +177,21 @@ const cambiarPassword = async (req, res) => {
   }
 };
 
-module.exports = { login, register, getPerfil, cambiarPassword };
+// @desc    Listar todos los usuarios (solo admin)
+// @route   GET /api/auth/usuarios
+// @access  Private/Admin
+const getUsuarios = async (req, res) => {
+  try {
+    const usuarios = await User.find({ activo: true })
+      .select("-password")
+      .populate("apartamentoId", "numero")
+      .sort({ createdAt: -1 });
+    res.json(usuarios);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ mensaje: "Error en el servidor", error: error.message });
+  }
+};
+
+module.exports = { login, register, getPerfil, cambiarPassword, getUsuarios };

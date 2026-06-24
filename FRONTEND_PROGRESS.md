@@ -127,15 +127,14 @@
 - [x] Fix: toast visible con modal abierto
 - [x] Aviso ⚠️ en Fees.jsx sobre el monto
 
-### 🔴 Módulo 13 — Reestructuración de Finanzas (PENDIENTE — PRIORITARIO)
+### ✅ Módulo 13 — Reestructuración de Finanzas (COMPLETO)
 
-Problemas identificados:
-
-1. Residente puede reportar pago con monto diferente a la cuota — debe ser el monto exacto
-2. Deudas no muestran claramente qué meses se deben ni el total acumulado
-3. Admin no tiene panel de morosidad — necesita tabla con: residente, meses que debe, monto total
-4. Residente nuevo hereda cuotas de meses anteriores incorrectamente — el estado de mora no se actualiza tras pagar
-5. Necesita revisión completa de: ReportPayment.jsx, MyAccount.jsx, Dashboard residente, lógica de morosidad en backend
+- [x] ReportPayment.jsx — monto automático según cuota, no editable
+- [x] resident/Dashboard.jsx — detalle de meses que debe + total adeudado
+- [x] resident/MyAccount.jsx — detalle de deuda + historial mejorado
+- [x] admin/Morosidad.jsx — tabla completa con filtros morosos/al día
+- [x] Ruta /admin/morosidad conectada en App.jsx
+- [x] Link Morosidad agregado en Sidebar admin
 
 Archivos a revisar antes de hacer cambios:
 
