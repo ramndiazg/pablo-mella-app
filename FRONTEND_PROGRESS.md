@@ -127,12 +127,16 @@
 - [x] Fix: toast visible con modal abierto
 - [x] Aviso ⚠️ en Fees.jsx sobre el monto
 
-### ✅ Módulo 13 — Reestructuración de Finanzas (COMPLETO)
+### ✅ Módulo 13 — Reestructuración de Finanzas y Fixes (COMPLETO)
 
-- [x] ReportPayment.jsx — monto automático según cuota, no editable
-- [x] resident/Dashboard.jsx — detalle de meses que debe + total adeudado
-- [x] resident/MyAccount.jsx — detalle de deuda + historial mejorado
-- [x] admin/Morosidad.jsx — tabla completa con filtros morosos/al día
+- [x] `ReportPayment.jsx` — monto automático según cuota, no editable
+- [x] `resident/Dashboard.jsx` — detalle meses que debe + total adeudado
+- [x] `resident/MyAccount.jsx` — detalle de deuda + historial mejorado
+- [x] `admin/Morosidad.jsx` — tabla completa con filtros morosos/al día
+- [x] `admin/Residents.jsx` — ahora lista todos los residentes con búsqueda
+- [x] `admin/Buildings.jsx` — botón Asignar residente en apartamentos disponibles
+- [x] `backend: authController.js` — register ahora actualiza residenteActualId en apartamento
+- [x] `backend: authController.js` + authRoutes.js — nuevo endpoint GET /api/auth/usuarios
 - [x] Ruta /admin/morosidad conectada en App.jsx
 - [x] Link Morosidad agregado en Sidebar admin
 
