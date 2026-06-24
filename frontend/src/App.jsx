@@ -12,6 +12,7 @@ import AdminDocuments from "./pages/admin/Documents";
 import ResidentDocuments from "./pages/resident/Documents";
 import MyAccount from "./pages/resident/MyAccount";
 import Morosidad from "./pages/admin/Morosidad";
+import Accounting from "./pages/admin/Accounting";
 
 import Login from "./pages/Login";
 
@@ -77,6 +78,14 @@ export default function App() {
         <Route path="/" element={<RutaRaiz />} />
 
         {/* Admin */}
+        <Route
+          path="/admin/contabilidad"
+          element={
+            <AdminRoute>
+              <Accounting />
+            </AdminRoute>
+          }
+        />
         <Route
           path="/admin/morosidad"
           element={

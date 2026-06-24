@@ -17,6 +17,7 @@ const adminLinks = [
   { to: "/admin/documentos", emoji: "📁", label: "Documentos" },
   { to: "/admin/mi-cuenta", emoji: "👤", label: "Mi Cuenta" },
   { to: "/admin/morosidad", emoji: "📊", label: "Morosidad" },
+  { to: "/admin/contabilidad", emoji: "📒", label: "Contabilidad" },
 ];
 
 const residenteLinks = [
